@@ -1,0 +1,4 @@
+appscript==1.0.1
+numpy==1.10.4
+psutil==3.4.1
+xlwings==0.6.4

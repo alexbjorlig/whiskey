@@ -1,25 +1,12 @@
 import xlwings as xw
 from os import getcwd
 
-
 #  The first part of this file will call the Excel file to "sort-it-out"
 full_name = getcwd()+'/Scotch_data/Excel_data.xlsx'
 app_target = '/Applications/Microsoft Office 2011/Microsoft Excel'
 
 wb = xw.Workbook(fullname=full_name, app_visible=False, app_target=app_target)
 
-categories_dict = {'color': {}, 'nose': {}, 'body': {}, 'pal': {}, 'fin': {}}
-categories_dict_original = {'color': {}, 'nose': {}, 'body': {}, 'pal': {}, 'fin': {}}
-
-'''
-for i in range(3, 70):
-    category_name = xw.Range(1, (1, i)).value.lower()  # get category
-    category_value = xw.Range(1, (2, i)).value.lower()  # get value
-    categories_value_dict = categories_dict[category_name]  # get the existing dict for the category
-    categories_value_dict[category_value] = (2, i)  # Save the new value with coordinates
-    categories_value_dict[2, i] = category_value  # Now save the tuple as key!
-    categories_dict[category_name] = categories_value_dict  # insert back into dict
-'''
 grand_scotch_dict = {}
 for i in range(3, 112):
     whiskey_dict = {'1. name': xw.Range(1, (i, 1)).value, '2. name': xw.Range(1, (i, 1)).value}  # Insert the names
@@ -41,7 +28,15 @@ for i in range(3, 112):
 
     grand_scotch_dict[i-2] = whiskey_dict  # Insert the whiskey only with number
 
-print(grand_scotch_dict)
+'''
+categories_dict = {'color': {}, 'nose': {}, 'body': {}, 'pal': {}, 'fin': {}}
+categories_dict_original = {'color': {}, 'nose': {}, 'body': {}, 'pal': {}, 'fin': {}}
 
-# for key, value in grand_scotch_dict.items():
-#     print(key, value)
+for i in range(3, 70):
+    category_name = xw.Range(1, (1, i)).value.lower()  # get category
+    category_value = xw.Range(1, (2, i)).value.lower()  # get value
+    categories_value_dict = categories_dict[category_name]  # get the existing dict for the category
+    categories_value_dict[category_value] = (2, i)  # Save the new value with coordinates
+    categories_value_dict[2, i] = category_value  # Now save the tuple as key!
+    categories_dict[category_name] = categories_value_dict  # insert back into dict
+'''

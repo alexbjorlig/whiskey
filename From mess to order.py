@@ -28,6 +28,8 @@ for i in range(3, 112):
 
     grand_scotch_dict[i-2] = whiskey_dict  # Insert the whiskey only with number
 
+print(grand_scotch_dict)
+
 '''
 categories_dict = {'color': {}, 'nose': {}, 'body': {}, 'pal': {}, 'fin': {}}
 categories_dict_original = {'color': {}, 'nose': {}, 'body': {}, 'pal': {}, 'fin': {}}

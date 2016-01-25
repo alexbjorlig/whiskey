@@ -9,7 +9,7 @@ wb = xw.Workbook(fullname=full_name, app_visible=False, app_target=app_target)
 
 grand_scotch_dict = {}
 for i in range(3, 112):
-    whiskey_dict = {'1. name': xw.Range(1, (i, 1)).value, '2. name': xw.Range(1, (i, 1)).value}  # Insert the names
+    whiskey_dict = {'1. name': xw.Range(1, (i, 1)).value, '2. name': xw.Range(1, (i, 2)).value}  # Insert the names
 
     whiskey_tuple_float = tuple(xw.Range(1, (i, 3), (i, 70)).value)  # Read the line of attributes i.e. 0 or 1
     whiskey_tuple_integer = tuple([int(x) for x in whiskey_tuple_float])  # Convert to integer tuple

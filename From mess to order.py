@@ -1,5 +1,6 @@
 import xlwings as xw
 from os import getcwd
+import json
 
 #  The first part of this file will call the Excel file to "sort-it-out"
 full_name = getcwd()+'/Scotch_data/Excel_data.xlsx'
@@ -28,7 +29,10 @@ for i in range(3, 112):
 
     grand_scotch_dict[i-2] = whiskey_dict  # Insert the whiskey only with number
 
-print(grand_scotch_dict)
+### Write dict to txt file
+with open("whiskey_dict.txt", "w") as myfile:
+    json.dump(grand_scotch_dict, myfile)
+
 
 '''
 categories_dict = {'color': {}, 'nose': {}, 'body': {}, 'pal': {}, 'fin': {}}

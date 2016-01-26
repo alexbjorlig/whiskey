@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt
-from scipy.cluster.hierarchy import dendrogram, linkage, cophenet
+from scipy.cluster.hierarchy import dendrogram, linkage
 from scipy.spatial.distance import pdist
 import numpy as np
 
@@ -10,28 +10,12 @@ a = np.random.multivariate_normal([10, 0], [[3, 1], [1, 4]], size=[100,])
 b = np.random.multivariate_normal([0, 20], [[3, 1], [1, 4]], size=[50,])
 X = np.concatenate((a, b),)
 
-# print(X)
-# print(X.shape)  # 150 samples with 2 dimensions
-# plt.scatter(X[:,0], X[:,1])
-# plt.show()
-
-
 
 Z = linkage(X, 'ward')
 
-µ
-idxs = [33, 68, 62]
-plt.figure(figsize=(10, 8))
-plt.scatter(X[:,0], X[:,1])
-plt.scatter(X[idxs,0], X[idxs,1], c='r')
-idxs = [15, 69, 41]
-plt.scatter(X[idxs,0], X[idxs,1], c='y')
-# plt.show()
-
-# print(X)
 
 
-
+# calculate full dendrogram
 plt.figure(figsize=(25, 10))
 plt.title('Hierarchical Clustering Dendrogram')
 plt.xlabel('sample index')

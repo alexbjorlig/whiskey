@@ -36,8 +36,6 @@ plt.scatter()
 plt.show()
 
 
-
-
 # for key, whiskey in result_dict.items():
 #     # if whiskey != 0.0 and key == 'Glenglassaugh':
 #     if whiskey != 0.0:

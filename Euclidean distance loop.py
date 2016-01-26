@@ -1,5 +1,9 @@
-import numpy, json, operator, collections
+import numpy, json, operator
 from scipy.spatial import distance
+from matplotlib import pyplot as plt
+from scipy.cluster.hierarchy import dendrogram, linkage
+import numpy as np
+np.set_printoptions(precision=5, suppress=True)
 
 with open('whiskey_dict.txt') as data_file:
     whiskey_dict = json.load(data_file)
@@ -26,8 +30,13 @@ for number, whiskey in whiskey_dict.items():
     print(whiskey['1. name'] + " : ", end="")
     print(calculate_euclidean_distance(whiskey_bunnahabhain_tuple, tuple(whiskey['tuple'])))
 
-sorted_dict = sorted(result_dict.items(), key=operator.itemgetter(1))
-print(sorted_dict)
+
+
+plt.scatter()
+plt.show()
+
+
+
 
 # for key, whiskey in result_dict.items():
 #     # if whiskey != 0.0 and key == 'Glenglassaugh':

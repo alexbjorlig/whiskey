@@ -9,31 +9,44 @@ with open('whiskey_dict.txt') as data_file:
     whiskey_dict = json.load(data_file)
 
 
-def calculate_euclidean_distance(a, b):
-    """
-    The purpose of this definition is to calculate the euclidean distance from two points.
-    Please refer to Provost and Fawcett 146
-    :param a:
-    :param b:
-    :return:
-    """
-    a_2 = numpy.array(a)
-    b_2 = numpy.array(b)
+def fancy_dendrogram(*args, **kwargs):
+    max_d = kwargs.pop('max_d', None)
+    if max_d and 'color_threshold' not in kwargs:
+        kwargs['color_threshold'] = max_d
+    annotate_above = kwargs.pop('annotate_above', 0)
 
-    return distance.jaccard(a_2,b_2)
+    ddata = dendrogram(*args, **kwargs)
+
+    if not kwargs.get('no_plot', False):
+        plt.title('Hierarchical Clustering Dendrogram (truncated)')
+        plt.xlabel('sample index or (cluster size)')
+        plt.ylabel('distance')
+        for i, d, c in zip(ddata['icoord'], ddata['dcoord'], ddata['color_list']):
+            x = 0.5 * sum(i[1:3])
+            y = d[1]
+            if y > annotate_above:
+                plt.plot(x, y, 'o', c=c)
+                plt.annotate("%.3g" % y, (x, y), xytext=(0, -5),
+                             textcoords='offset points',
+                             va='top', ha='center')
+        if max_d:
+            plt.axhline(y=max_d, c='k')
+    return ddata
 
 whiskey_bunnahabhain_tuple = tuple(whiskey_dict['20']['tuple'])  # In the book they wan't to calculate distance from bunnahabhain.
 whiskey_caol_tuple = tuple(whiskey_dict['21']['tuple'])
 
-#  X = np.matrix([[1, 2, 3], [3, 5, 2], [2, 4, 2]])
 
+whiskey_names_list = []
 placeholder_list = []
 for key, whiskey in whiskey_dict.items():
     placeholder_list.append(whiskey['tuple'])
+    whiskey_names_list.append(key + ' ' + whiskey['1. name'])
 
 X = np.matrix(placeholder_list)
-
 Z = linkage(X, 'ward')
+
+
 
 plt.figure(figsize=(25, 10))
 plt.title('Hierarchical Clustering Dendrogram')
@@ -41,30 +54,12 @@ plt.xlabel('sample index')
 plt.ylabel('distance')
 dendrogram(
     Z,
-    leaf_rotation=90.,  # rotates the x axis labels
-    leaf_font_size=8.,  # font size for the x axis labels
+    # truncate_mode='lastp',
+    leaf_rotation=90.,
+    leaf_font_size=9.,
     show_contracted=True,
+    # p=12,
+    labels=tuple(whiskey_names_list),
 )
 
 plt.show()
-
-
-'''
-for number, whiskey in whiskey_dict.items():
-    result_dict[whiskey['1. name']] = calculate_euclidean_distance(whiskey_bunnahabhain_tuple, tuple(whiskey['tuple']))
-    print(whiskey['1. name'] + " : ", end="")
-    print(calculate_euclidean_distance(whiskey_bunnahabhain_tuple, tuple(whiskey['tuple'])))
-
-
-
-
-# for key, whiskey in result_dict.items():
-#     # if whiskey != 0.0 and key == 'Glenglassaugh':
-#     if whiskey != 0.0:
-#         print((whiskey))
-
-# for key, whiskey in whiskey_dict.items():
-#     if whiskey['1. name'] == 'Glenglassaugh':
-#         print(whiskey['1. name'])
-#         print(whiskey['tuple'])
-'''

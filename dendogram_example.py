@@ -1,6 +1,5 @@
 from matplotlib import pyplot as plt
-from scipy.cluster.hierarchy import dendrogram, linkage
-from scipy.spatial.distance import pdist
+from scipy.cluster.hierarchy import dendrogram, linkage, inconsistent
 import numpy as np
 
 
@@ -13,8 +12,16 @@ np.set_printoptions(precision=5, suppress=True)  # suppress scientific
 np.random.seed(4711)  # for repeatability of this tutorial
 a = np.random.multivariate_normal([10, 0], [[3, 1], [1, 4]], size=[100,])
 b = np.random.multivariate_normal([0, 20], [[3, 1], [1, 4]], size=[50,])
-X = np.concatenate((a, b),)
+# print(a)
+a1 = np.array([[11,23],[15,52]])
+a2 = np.array([[12,29],[91,95]])
+print(a1)
+print(a2)
 
+print(np.concatenate((a1,a2),))
+
+X = np.concatenate((a, b),)
+# print(X)
 
 Z = linkage(X, 'ward')
 
@@ -52,5 +59,6 @@ fancy_dendrogram(
     leaf_font_size=12.,
     show_contracted=True,
     annotate_above=10,# useful in small plots so annotations don't overlap
+    max_d=16,
 )
 plt.show()

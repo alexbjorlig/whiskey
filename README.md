@@ -13,5 +13,9 @@ Guide to using Dendograms: https://joernhees.de/blog/2015/08/26/scipy-hierarchic
 ---------
 Virtual Env
 ---------
-Create Virtual env with: python3.5 -m venv whiskey_env
-Install requirements after activating whiskey_env: pip install -r requirements.txt 
+Developed with Python 3.5
+1) Install python3.5 from https://www.python.org/downloads/
+2) Install virtual env with: pip3.5 install virtualenv
+3) Create Virtual env with: python3.5 -m venv whiskey_env
+4) Activate whiskey_env: source whiskey_env/bin/activate
+5) Install whiskey requirements after activating whiskey_env: pip install -r requirements.txt 

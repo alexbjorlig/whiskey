@@ -9,3 +9,9 @@ The purpose of this repository is two fold.
 
 Guide to using Dendograms: https://joernhees.de/blog/2015/08/26/scipy-hierarchical-clustering-and-dendrogram-tutorial/
 
+
+---------
+Virtual Env
+---------
+Create Virtual env with: python3.5 -m venv whiskey_env
+Install requirements after activating whiskey_env: pip install -r requirements.txt 

@@ -7,7 +7,7 @@ from os import getcwd
 full_path = getcwd()+'/source_data_from_legendre_lapointe/Excel_data.xlsx'
 
 # Setting Excel version
-app_target = '/Applications/Microsoft Excel.app'
+app_target = '/Applications/Microsoft Office 2011/Microsoft Excel.app'
 
 # Creating Xlwings workbook object to extract data from excel file
 wb = xw.Workbook(fullname=full_path, app_visible=False, app_target=app_target)
@@ -30,16 +30,20 @@ def create_dict_of_whiskeys():
         whiskey_dict = {'1. name': xw.Range(1, (i, 1)).value, '2. name': xw.Range(1, (i, 2)).value}
 
         # Read the line of attributes i.e. 0 or 1
-        whiskey_tuple_float = tuple(xw.Range(1, (i, 3), (i, 70)).value)
+        whiskey_list_float = xw.Range(1, (i, 3), (i, 70)).value
 
-        # Convert to integer tuple
-        whiskey_tuple_integer = tuple([int(x) for x in whiskey_tuple_float])
+        # Convert Xlwings standard float type to integer
+        whiskey_list_integer = [int(x) for x in whiskey_list_float]
 
-        # Insert the tuple in the whiskey_dict
-        whiskey_dict['tuple'] = whiskey_tuple_integer
+        # Insert the list in the whiskey_dict
+        whiskey_dict['list'] = whiskey_list_integer
 
-        descriptive_dict = {'color': [], 'nose': [], 'body': [], 'pal': [], 'fin': []}  # Placeholder for the 5 attrib.
+        # Each whiskey has 5 attributes
+        descriptive_dict = {'color': [], 'nose': [], 'body': [], 'pal': [], 'fin': []}
+
+        # This loop iterates through excel columns [3:71] as the whiskeys attributes start on column 3 and ends on 70
         for x in range(3, 71):
+
             category_name = xw.Range(1, (1, x)).value.lower()
             category_value = xw.Range(1, (2, x)).value.lower()
             attribute_value_int = int(xw.Range(1, (i, x)).value)

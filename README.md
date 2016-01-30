@@ -1,7 +1,6 @@
 # Whiskey
 
-Whiskey is a small git implementation of the 1994 classification whiskey project by Pierre Legendre and F.-J. Lapointe. 
-Url to original files http://adn.biol.umontreal.ca/~numericalecology/data/scotch.html
+Whiskey is a small git implementation of the 1994 classification whiskey project by Pierre Legendre and F.-J. Lapointe.  http://adn.biol.umontreal.ca/~numericalecology/data/scotch.html
 
 The purpose of this repository is two fold.
 

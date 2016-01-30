@@ -3,10 +3,7 @@ from matplotlib import pyplot as plt
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 
-
-
-
-
+# suppress scientific float notation
 np.set_printoptions(precision=5, suppress=True)
 
 with open('whiskey_dict.txt') as data_file:

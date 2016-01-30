@@ -1,8 +1,12 @@
-import numpy, json, operator
-from scipy.spatial import distance
+import numpy as np, json, operator
 from matplotlib import pyplot as plt
 from scipy.cluster.hierarchy import dendrogram, linkage
-import numpy as np
+
+
+
+
+
+
 np.set_printoptions(precision=5, suppress=True)
 
 with open('whiskey_dict.txt') as data_file:

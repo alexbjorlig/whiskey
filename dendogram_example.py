@@ -4,9 +4,7 @@ import numpy as np
 
 
 
-########
-# Guide: https://joernhees.de/blog/2015/08/26/scipy-hierarchical-clustering-and-dendrogram-tutorial/
-######
+
 np.set_printoptions(precision=5, suppress=True)  # suppress scientific
 
 np.random.seed(4711)  # for repeatability of this tutorial

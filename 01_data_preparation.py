@@ -26,40 +26,57 @@ def create_dict_of_whiskeys():
     # This loop iterates through excel rows [3:112] as the whiskeys starts on row 3 and ends at row 111
     for i in range(3, 112):
 
-        # Insert the names
+        # Here we insert the names..
+        # Example... {"1. name": "Aberfeldy", "2. name": "Aberfeldy"}
         whiskey_dict = {'1. name': xw.Range(1, (i, 1)).value, '2. name': xw.Range(1, (i, 2)).value}
 
         # Read the line of attributes i.e. 0 or 1
+        # Example... [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0______1.0, 0.0]
         whiskey_list_float = xw.Range(1, (i, 3), (i, 70)).value
 
-        # Convert Xlwings standard float type to integer
-        whiskey_list_integer = [int(x) for x in whiskey_list_float]
+        # Insert the list in the whiskey_dict and convert XlWings float to Integer
+        # Example... "list": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0_________1, 0, 0]
+        whiskey_dict['attribute_value_list'] = [int(x) for x in whiskey_list_float]
 
-        # Insert the list in the whiskey_dict
-        whiskey_dict['list'] = whiskey_list_integer
+        '''
+        The following code below creates a dictionary of the attributes but in a human readable format instead of binary
+        '''
 
-        # Each whiskey has 5 attributes
-        descriptive_dict = {'color': [], 'nose': [], 'body': [], 'pal': [], 'fin': []}
+        # Each whiskey has 5 categories - each categories has a list consisting of attributes
+        whiskey_attributes_dict = {'color': [], 'nose': [], 'body': [], 'pal': [], 'fin': []}
 
         # This loop iterates through excel columns [3:71] as the whiskeys attributes start on column 3 and ends on 70
         for x in range(3, 71):
 
-            category_name = xw.Range(1, (1, x)).value.lower()
-            category_value = xw.Range(1, (2, x)).value.lower()
-            attribute_value_int = int(xw.Range(1, (i, x)).value)
-            if attribute_value_int == 1:
-                categories_list = descriptive_dict[category_name]  # Get the categorys list
-                categories_list.append(category_value)  # Append the value
-                descriptive_dict[category_name] = categories_list  # Put the new list back in
-        whiskey_dict['descriptive'] = descriptive_dict
+            # Reads category key from first row
+            whiskey_category_key = xw.Range(1, (1, x)).value.lower()
 
-        dict_of_whiskeys[i-2] = whiskey_dict  # Insert the whiskey only with number
+            # Reads attribute name from second row
+            whiskey_attribute_name = xw.Range(1, (2, x)).value.lower()
+
+            # Reads the attribute value from the current [i] row (outer loop)
+            whiskey_attribute_value = int(xw.Range(1, (i, x)).value)
+
+            # Checks if the whiskey has the attribute name
+            if whiskey_attribute_value == 1:
+
+                # Retrieve the attribute list for the current category
+                categories_list = whiskey_attributes_dict[whiskey_category_key]
+
+                # Append the attribute name to the attribute list
+                categories_list.append(whiskey_attribute_name)
+
+                # Append the attribute list to the whiskey_attributes_dict
+                whiskey_attributes_dict[whiskey_category_key] = categories_list
+
+        whiskey_dict['whiskey_attributes'] = whiskey_attributes_dict
+
+        # [i-2] because we start the first loop at range(3, 112)
+        dict_of_whiskeys[i-2] = whiskey_dict
 
     return dict_of_whiskeys
 
-dict_of_whiskeys = create_dict_of_whiskeys()
-
-### Write dict to txt file
-with open("whiskey_dict.txt", "w") as myfile:
-    json.dump(dict_of_whiskeys, myfile)
+# Write dict to txt file
+with open("whiskey_dict.txt", "w") as f:
+    json.dump(create_dict_of_whiskeys(), f)
 

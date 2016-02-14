@@ -1,16 +1,17 @@
-import numpy as np, json, operator
+import json
+import numpy as np
 from matplotlib import pyplot as plt
 from scipy.cluster.hierarchy import dendrogram, linkage
-
 
 # suppress scientific float notation
 np.set_printoptions(precision=5, suppress=True)
 
+# We load the whiskey data file
 with open('whiskey_dict.txt') as data_file:
     whiskey_dict = json.load(data_file)
 
 
-def fancy_dendrogram(*args, **kwargs):
+def fancy_dendrogram(*args, **kwargs):  # This method is for future improvement.
     max_d = kwargs.pop('max_d', None)
     if max_d and 'color_threshold' not in kwargs:
         kwargs['color_threshold'] = max_d
@@ -34,33 +35,39 @@ def fancy_dendrogram(*args, **kwargs):
             plt.axhline(y=max_d, c='k')
     return ddata
 
-whiskey_bunnahabhain_tuple = tuple(whiskey_dict['20']['tuple'])  # In the book they wan't to calculate distance from bunnahabhain.
-whiskey_caol_tuple = tuple(whiskey_dict['21']['tuple'])
+# Book they wan't to calculate distance, bunnahabhain.
+whiskey_bunnahabhain_tuple = tuple(whiskey_dict['20']['attribute_value_list'])
+whiskey_caol_tuple = tuple(whiskey_dict['21']['attribute_value_list'])
 
 
-whiskey_names_list = []
+whiskey_names_list = []  # This list is to display legend data
 placeholder_list = []
-for key, whiskey in whiskey_dict.items():
-    placeholder_list.append(whiskey['tuple'])
+for key, whiskey in whiskey_dict.items():  # The following loop builds a simple list of all whiskyes
+    placeholder_list.append(whiskey['attribute_value_list'])
     whiskey_names_list.append(key + ' ' + whiskey['1. name'])
 
+#  Convert the list to a numpy matrix
+#  Example... [[0 0 0 ..., 0 0 1][0 0 0 ..., 1 0 0]]
 X = np.matrix(placeholder_list)
+
+#  Convert the distance based on the Jaccard distance
+#  Example... [[27.  90.  2.23607   2.]
+#              [15.  74.  2.44949   2.]]
 Z = linkage(X, 'ward')
 
-
-
-plt.figure(figsize=(25, 10))
-plt.title('Hierarchical Clustering Dendrogram')
-plt.xlabel('sample index')
-plt.ylabel('distance')
-dendrogram(
+plt.figure(figsize=(25, 10))  # Intiate the mat plot figure size
+plt.title('Hierarchical Clustering Dendrogram')  # Set title
+plt.xlabel('sample index')  # Set the x axis label
+plt.ylabel('distance')  # Set the y axis label
+dendrogram(  # From scipy we now use the dendrogram
     Z,
     # truncate_mode='lastp',
-    leaf_rotation=90.,
-    leaf_font_size=9.,
-    show_contracted=True,
+    leaf_rotation=90.,  # Set the rotation of the legends
+    leaf_font_size=9.,  # Set the font size
+    show_contracted=True,  # Display all labels
     # p=12,
-    labels=tuple(whiskey_names_list),
+    labels=tuple(whiskey_names_list),  # Set the labels to the name list.
 )
 
+#  Finally display the plot
 plt.show()
